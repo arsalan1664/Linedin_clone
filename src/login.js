@@ -11,11 +11,6 @@ function Login(){
     const[profilepic, setProfilepic] = useState("")
     const dispatch = useDispatch();
 
-
-
-    const loginToApp = (e) => {
-        e.preventDefault();
-    }
     const register = () => {
         if(!name){
             return alert('Please enter a fullname');
@@ -45,14 +40,8 @@ function Login(){
                 <input placeholder="Profile Pic URL (Required if registering)" value={profilepic} onChange={(e)=>(setProfilepic(e.target.value))} type="text" />
                 <input placeholder="Enter Your Email" value={email} onChange={(e)=>(setEmail(e.target.value))} type="Email" />
                 <input placeholder="Enter Your Passward" value={passward} onChange={(e)=>(setPassward(e.target.value))} type="passward" />
-                <button type='submit' onClick={loginToApp}>Sign in</button>
+                <button type='submit' onClick={register}>Get Started</button>
             </form>
-            <p>
-               Not a member? {"  "}
-               <span className='login__register' onClick={register}>
-                    Register Now
-               </span>
-            </p>
             
         </div>
     )

@@ -10,6 +10,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useDispatch } from 'react-redux';
 import { logout } from './userSlice';
 import { auth } from './firebase';
+import Button from '@mui/material/Button';
 
 function Header() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function Header() {
   const logoutToApp = () => {
     dispatch(logout());
     auth.signOut();
+    alert('Logout successful')
   }
 
   return (
@@ -40,7 +42,9 @@ function Header() {
               <HeaderOption title='Jobs' Icon={BusinessCenterIcon}/>
               <HeaderOption title='Messaging' Icon={MessageIcon}/>
               <HeaderOption title='Notifications' Icon={NotificationsIcon}/>
-              <HeaderOption title='Me' onClick={logoutToApp} avatar={true}/>
+              <Button  onClick={logoutToApp}>
+              <HeaderOption title='Me' avatar={true}/>
+              </Button>
             </div>          
         </div>
 

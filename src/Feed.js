@@ -17,18 +17,24 @@ function Feed() {
     const[input,setInput] = useState('')
     const[post,setPost] = useState([])
 
-    useEffect(()=>{
-        db.collection("post").onSnapshot((snapshot)=>{
-            setPost(snapshot.docs.map((doc)=>(
-                {
-                    id: doc.id,
-                    data: doc.data(),
-
-                }
-            )))
-        })
-    } ,[])
-
+    useEffect(() => {
+        // Fixed syntax error here
+        const unsubscribe = db.collection("post").orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+          setPost(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          })));
+        });
+    
+        // Clean up the listener when the component unmounts
+        return () => {
+          unsubscribe();
+        };
+      } ,[])
+    console.log(post);
+    if (post == null) {
+        return <p>no post</p>
+    }
     const sendPost = e => {
         e.preventDefault();
         db.collection("post").add({
@@ -57,7 +63,8 @@ function Feed() {
                 <InputOption Icon={CalendarViewDayIcon} title={'Write_Article'}color='#7fc15e'/>
             </div>
         </div>
-        {post.map(({ id, data: { name, discriptions, message, photoURL }}) => ( 
+        <>
+        {post && post?.map(({ id, data: { name, discriptions, message, photoURL }}) => ( 
             <Post
                 key= {id}
                 name={name}
@@ -66,6 +73,7 @@ function Feed() {
                 photoURL={photoURL}
             />
         ))}
+        </>
     </div>
   )
 }
